@@ -66,7 +66,6 @@ def tirada_dados (cantidad):
         dados.append(randint(1,6))
     return dados
 
-
 def turno_generala():
     print("Bienvenido al Juego de la Generala")
     tirada = 0
@@ -110,46 +109,55 @@ def turno_generala():
     print("Turno terminado. Dados finales: ", dados_actuales)
     return dados_actuales
 
-planilla = {}
-for cat in categorias:
-    planilla[cat] = [None, None]
+def jugar_partida():
+    planilla = {}
+    for cat in categorias:
+        planilla[cat] = [None, None]
 
-nombres = ["Jugador 1", "Jugador 2"]
+    nombres = ["Jugador 1", "Jugador 2"]
 
-for ronda in range(len(categorias)):
-    print("\n")
-    print("Ronda", ronda + 1)
+    for ronda in range(len(categorias)):
+        print("\n")
+        print("Ronda", ronda + 1)
 
-    for jugador in [0, 1]:
-        print("\nTurno de: ", nombres[jugador])
+        for jugador in [0, 1]:
+            print("\nTurno de: ", nombres[jugador])
 
-        dados_finales = turno_generala()
+            dados_finales = turno_generala()
 
-        categoria = input("Elegí categoría (1-6, E, F, P, G): ").strip().upper()
+            categoria = input("Elegí categoría (1-6, E, F, P, G): ").strip().upper()
 
-        while categoria not in categorias or planilla[categoria][jugador] is not None:
-            categoria = input("Categoría inválida. Elegí otra por favor (1-6, E, F, P, G): ").strip().upper()
+            while categoria not in categorias or planilla[categoria][jugador] is not None:
+                categoria = input("Categoría inválida. Elegí otra por favor (1-6, E, F, P, G): ").strip().upper()
 
-        puntos = puntaje_categoria(categoria, dados_finales)
-        planilla[categoria][jugador] = puntos
+            puntos = puntaje_categoria(categoria, dados_finales)
+            planilla[categoria][jugador] = puntos
 
-        print("Elegiste ", categoria, "y tu puntaje es: ", puntos)
-print("Planilla: ", planilla)
+            print("Elegiste ", categoria, "y tu puntaje es: ", puntos)
 
-total_j1 = 0
-total_j2 = 0
-for cat in categorias:
-    total_j1 += planilla[cat] [0]
-    total_j2 += planilla[cat] [1]
-print("\n Total Jugador 1: ", total_j1)
-print("Total Jugador 2: ", total_j2)
+    print("\nPlanilla: ", planilla)
 
-if total_j1 > total_j2:
-    print("Gana Jugador 1")
-elif total_j2 > total_j1:
-    print("Gana Jugador 2")
-else:
-    print("Empate")
+    total_j1 = 0
+    total_j2 = 0
+
+    for cat in categorias:
+        total_j1 += planilla[cat] [0]
+        total_j2 += planilla[cat] [1]
+    print("\n Total Jugador 1: ", total_j1)
+    print("Total Jugador 2: ", total_j2)
+
+    if total_j1 > total_j2:
+        print("Gana Jugador 1")
+    elif total_j2 > total_j1:
+        print("Gana Jugador 2")
+    else:
+        print("Empate")
+
+def main():
+        jugar_partida()
+
+if __name__ == "__main__":
+    main()
 
 
 
