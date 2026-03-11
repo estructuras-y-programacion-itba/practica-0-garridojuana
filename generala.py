@@ -70,12 +70,10 @@ def tirada_dados (cantidad):
 def turno_generala():
     print("Bienvenido al Juego de la Generala")
     tirada = 0
-    cant_jugadores = 1
-    seguir = True
     jugar = ""
     
     while jugar != "1":
-        jugar = input("Presione 1 para jugar")
+        jugar = input("Presione 1 para jugar: ")
 
     dados_actuales = tirada_dados(5)
     tirada +=1
@@ -112,7 +110,14 @@ def turno_generala():
     print("Turno terminado. Dados finales: ", dados_actuales)
     return dados_actuales
 
-turno_generala()
+dados_finales = turno_generala()
+
+categoria = input("Elegí categoría (1-6, E, F, P, G): ").strip().upper()
+while categoria not in categorias:
+    categoria = input("Categoría inválida. Elegí otra por favor (1-6, E, F, P, G): ").strip().upper()
+
+puntos = puntaje_categoria(categoria, dados_finales)
+print("Elegiste ", categoria, "y tu puntaje es: ", puntos)
 
 
 
