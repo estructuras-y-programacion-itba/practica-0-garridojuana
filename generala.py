@@ -67,18 +67,17 @@ def tirada_dados (cantidad):
     return dados
 
 def turno_generala():
-    print("Bienvenido al Juego de la Generala")
     tirada = 0
-    jugar = ""
-    
+    jugar =""
+
     while jugar != "1":
         jugar = input("Presione 1 para jugar: ")
 
     dados_actuales = tirada_dados(5)
-    tirada +=1
+    tirada += 1
 
-    print("Tirada", tirada, "->", dados_actuales)
-
+    print("Tirada ", tirada, "-> ", dados_actuales)
+    
     while tirada < 3:
         respuesta = input("¿Desea volver a tirar? (s/n): ").strip().lower()
 
@@ -86,7 +85,6 @@ def turno_generala():
             break
 
         posiciones_txt = input("¿Qué posiciones querés volver a tirar? (1-5, por ejemplo: 1 3 4): ")
-        
         posiciones_txt = posiciones_txt.replace(","," ")
         partes = posiciones_txt.split()
 
@@ -107,9 +105,29 @@ def turno_generala():
         print("Tirada", tirada, "->", dados_actuales)
     
     print("Turno terminado. Dados finales: ", dados_actuales)
-    return dados_actuales
+    return dados_actuales, tirada
+
+def guardar_planilla_csv(planilla, archivo = "jugadas.csv"):
+    orden = ["E", "F", "P", "G", "1", "2", "3", "4", "5", "6"]
+
+    with open(archivo, "w", newline = "", encoding = "utf-8") as f:
+        writer =csv.writer(f)
+        writer.writerow(["Jugada", "j1", "j2"])
+
+        for cat in orden:
+            j1 = planilla[cat][0]
+            j2 = planilla[cat][1]
+
+            if j1 is None:
+                j1 = 0
+            if j2 is None:
+                j2 = 0
+            
+            writer.writerow([cat, j1, j2])
+
 
 def jugar_partida():
+    print("Bienvenido al Juego de la Generala")
     planilla = {}
     for cat in categorias:
         planilla[cat] = [None, None]
@@ -132,6 +150,8 @@ def jugar_partida():
 
             puntos = puntaje_categoria(categoria, dados_finales)
             planilla[categoria][jugador] = puntos
+            
+            guardar_planilla_csv(planilla)
 
             print("Elegiste ", categoria, "y tu puntaje es: ", puntos)
 
