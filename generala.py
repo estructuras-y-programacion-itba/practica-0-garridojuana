@@ -76,7 +76,15 @@ def turno_generala():
     dados_actuales = tirada_dados(5)
     tirada += 1
 
+    generala_real = False
+    if generala(dados_actuales):
+        generala_real = True
+
     print("Tirada ", tirada, "-> ", dados_actuales)
+
+    if generala_real:
+        print("Turno terminado. Dados finales: ", dados_actuales)
+        return dados_actuales, tirada, generala_real
     
     while tirada < 3:
         respuesta = input("¿Desea volver a tirar? (s/n): ").strip().lower()
@@ -105,7 +113,7 @@ def turno_generala():
         print("Tirada", tirada, "->", dados_actuales)
     
     print("Turno terminado. Dados finales: ", dados_actuales)
-    return dados_actuales, tirada
+    return dados_actuales, tirada, generala_real
 
 def guardar_planilla_csv(planilla, archivo = "jugadas.csv"):
     orden = ["E", "F", "P", "G", "1", "2", "3", "4", "5", "6"]
@@ -125,7 +133,6 @@ def guardar_planilla_csv(planilla, archivo = "jugadas.csv"):
             
             writer.writerow([cat, j1, j2])
 
-
 def jugar_partida():
     print("Bienvenido al Juego de la Generala")
     planilla = {}
@@ -141,7 +148,13 @@ def jugar_partida():
         for jugador in [0, 1]:
             print("\nTurno de: ", nombres[jugador])
 
-            dados_finales = turno_generala()
+            dados_finales, tirada, generala_real = turno_generala()
+
+            if generala_real:
+                print("\n ¡GENERALA REAL! Gana", nombres[jugador])
+                planilla["G"][jugador] = 80
+                guardar_planilla_csv(planilla)
+                return
 
             categoria = input("Elegí categoría (1-6, E, F, P, G): ").strip().upper()
 
