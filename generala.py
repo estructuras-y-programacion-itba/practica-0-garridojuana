@@ -88,8 +88,9 @@ def turno_generala():
     
     while tirada < 3:
         respuesta = input("¿Desea volver a tirar? (s/n): ").strip().lower()
-
-        if respuesta != "s":
+        while respuesta != "s" and respuesta != "n":
+            respuesta = input("Por favor poné solo ´s´ o ´n´" )
+        if respuesta == "n":
             break
 
         posiciones_txt = input("¿Qué posiciones querés volver a tirar? (1-5, por ejemplo: 1 3 4): ")
